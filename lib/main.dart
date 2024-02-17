@@ -1,11 +1,10 @@
 // **************بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيم***************
 //this is an easy App that displays HunterxHunter main caracters images, The user click a button and choose which caracter he want to display.
 //Gon and Kilua images are fetched from web and Leoreo and kuarapika images are from App assets
-//Copyright
+//Copyright yassine sossey
 //12/02/2024
 
 import 'dart:io';
-
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
@@ -38,8 +37,11 @@ class DisplayImage extends StatefulWidget {
 }
 
 class _DisplayImageState extends State<DisplayImage> {
+  //contains later the name of caracter to be displayed
   String characterName = '';
+  //URl of images fetchefd from web
   String imageUrl = '';
+  //List of caracters names
   final List<String> characters = ['Gon', 'Kilua', 'Kurapika', 'Leoreo'];
 
   @override
@@ -48,6 +50,7 @@ class _DisplayImageState extends State<DisplayImage> {
       children: [
         const SizedBox(height: 20),
         Expanded(
+          //4 Elevatedbuttons centred, each one contain a caracter name, when pushed the photo of caracter should be dsiplayed
           child: ListView.builder(
             itemCount: characters.length,
             itemBuilder: (context, index) => Center(
@@ -64,16 +67,15 @@ class _DisplayImageState extends State<DisplayImage> {
             ),
           ),
         ),
-        //the image is shown here
+        //the image is displayed here
         Expanded(child: ChosenCharacterImage(characterName: characterName)),
-        Text('build : $buildnumer')
+        Text('build No: $buildnumer')
       ],
     );
   }
-
-//  Widget chosenCharacterImage(String characterName) {}
 }
 
+//class to diplay properly the image and handle all related errors and exceptions
 class ChosenCharacterImage extends StatelessWidget {
   final String characterName;
 
@@ -112,10 +114,7 @@ class ChosenCharacterImage extends StatelessWidget {
     );
   }
 
-  Future testURL(String url) async {
-    return await http.head(Uri.parse(url));
-  }
-
+// future that get the target URL and check his response
   Future<http.Response> loadImage(String imageUrl) async {
     try {
       final response = await http.get(Uri.parse(imageUrl));
@@ -125,12 +124,14 @@ class ChosenCharacterImage extends StatelessWidget {
         throw Exception('Failed to load image: ${response.statusCode}');
       }
     } on http.ClientException catch (e) {
+      //network-related error or a timeout
       throw Exception('Failed to load image: $e');
     } on SocketException catch (e) {
+      //problems establishing a connection, sending or receiving data, or resolving hostnames
       throw Exception('Failed to load image: $e');
     } catch (e) {
+      //other errors
       throw Exception('Failed to load image: $e');
     }
   }
 }
-//Failed to fetch
