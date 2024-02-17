@@ -1,4 +1,4 @@
-# i_am_rich
+# HunterxHunter main caracter photos
 
 A new Flutter project.
 
